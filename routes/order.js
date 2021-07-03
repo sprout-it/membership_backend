@@ -1,6 +1,6 @@
-const express = require("express");
+const express = require("express").Router();
 const { firestore } = require("../configs/firebase");
-const router = express.Router();
+const router = require('express-ws')(express).app;
 
 router.get("/", async (req, res) => {
   try {
