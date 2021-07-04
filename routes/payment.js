@@ -17,8 +17,9 @@ router.get('/confirm', (req, res) => {
     res.send('ok')
 })
 
-router.get('/payment', async (req, res) => {
+router.post('/payment', async (req, res) => {
     try {
+        const {price,quotation} = req.body
         const token = await axios.post(`${SCB_ENDPOINT}/partners/sandbox/v1/oauth/token`, {
             "applicationKey": API,
             "applicationSecret": SECRET,
@@ -36,8 +37,8 @@ router.get('/payment', async (req, res) => {
                 "qrType": "PP",
                 "ppType": "BILLERID",
                 "ppId": MERCHANT_ID,
-                "amount": "1.00",
-                "ref1": "REFERENCE1",
+                "amount": price,
+                "ref1": quotation,
                 "ref2": "REFERENCE2",
                 "ref3": "SCB"
             },

@@ -48,6 +48,7 @@ router.post("/contract", async (req, res) => {
     }
     const date = dayjs(Date.now()).format('DDMMYY')
     const quotation = `QT${aeId}${date}${count}`
+    Object.assign(contract.contractData,{quotation:quotation})
     await firestore.collection("order").doc(contract.docId).set(contract.contractData);
     res.status(200).send({ name: name, price: price ,quotation:quotation});
   } catch (error) {
