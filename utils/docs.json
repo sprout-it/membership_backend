@@ -1,0 +1,72 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is a sample server Petstore server. You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/). For this sample, you can use the api key `special-key` to test the authorization filters.",
+        "version": "1.0.5",
+        "title": "Swagger Petstore",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "apiteam@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        }
+    },
+    "host": "http://localhost:3000",
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "user",
+            "description": "Operations about user",
+            "externalDocs": {
+                "description": "Find out more about our store",
+                "url": "http://swagger.io"
+            }
+        }
+    ],
+    "schemes": [
+        "https",
+        "http"
+    ],
+    "paths": {
+        "/user/{userId}": {
+            "get": {
+                "tags": [
+                    "user"
+                ],
+                "summary": "Find pet by ID",
+                "description": "Returns a single pet",
+                "operationId": "getPetById",
+                "produces": [
+                    "application/json",
+                    "application/xml"
+                ],
+                "parameters": [
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "ID of pet to return",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "schema": {
+                            "$ref": "#/definitions/userId"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid ID supplied"
+                    },
+                    "404": {
+                        "description": "Pet not found"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,8 +1,7 @@
-const express = require("express");
+const express = require("express").Router();
 const { firestore } = require("../configs/firebase");
-const router = express.Router();
+const router = require('express-ws')(express).app;
 const dayjs = require('dayjs')
-
 router.get("/contract", async (req, res) => {
   try {
     let contract = [];
