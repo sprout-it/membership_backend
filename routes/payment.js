@@ -44,7 +44,12 @@ router.post('/confirm', async (req, res) => {
     const postFinance = await axios.post('https://bsv-th-authorities.com/UploadFile/api/ApiSprout/OrderRequest', toFinance)
     if (postFinance.data.status == 'Success') {
         //change state to Done
-        // const [findDocs] = await firestore.collection("order").where('quotation', '==', billPaymentRef1).get();
+        const docRef = await firestore.collection("order").where('quotation', '==', billPaymentRef1).get();
+        docRef.docs.map(async(data)=>{
+            await firestore.collection('order').doc(data.id).set({
+                status:'done'
+            },{merge:true})
+        })
     }
     res.send({ status: 'ok' })
 })
@@ -64,7 +69,7 @@ router.post('/confirm', async (req, res) => {
 
 router.post('/payment', async (req, res) => {
     try {
-        const { price, quotation } = req.body
+        const { price, quotation,docId } = req.body
         const token = await axios.post(`${SCB_ENDPOINT}/partners/sandbox/v1/oauth/token`, {
             "applicationKey": API,
             "applicationSecret": SECRET,
@@ -97,6 +102,9 @@ router.post('/payment', async (req, res) => {
                 }
             }
         )
+        await firestore.collection('order').doc(docId).set({
+            qrImage:qrgen.data.data.qrImage
+        },{merge:true})
         res.status(200).send(qrgen.data)
     }
     catch (e) {

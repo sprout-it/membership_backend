@@ -2,7 +2,7 @@ const express = require("express");
 const app = require('express-ws')(express()).app;
 const cors = require("cors");
 const PORT = process.env.PORT || 80;
-// var functions = require("firebase-functions");
+var functions = require("firebase-functions");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
