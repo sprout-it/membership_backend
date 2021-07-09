@@ -24,21 +24,28 @@ router.post('/confirm', async (req, res) => {
         GrandTotal += cart.ppu;
     });
 
-    const test = {
+    const toFinance = {
         OrderNo: billPaymentRef1,
         CustomerName: payerName,
-        ItemName: 'Membership Package',
-        Qty: 1,
-        Unitprice: 1,
-        itemDiscount: 0,
+        Item: [
+            {
+                ItemName: 'Membership Package',
+                Qty: 1,
+                Unitprice: 1,
+                itemDiscount: 0,
+            },
+        ],
         Discount: 0,
         Vat: 7,
         GrandTotal,
         PaymentType: 1
     }
 
-    // const postFinance = await axios.post('/', toFinance)
-
+    const postFinance = await axios.post('https://bsv-th-authorities.com/UploadFile/api/ApiSprout/OrderRequest', toFinance)
+    if (postFinance.data.status == 'Success') {
+        //change state to Done
+        // const [findDocs] = await firestore.collection("order").where('quotation', '==', billPaymentRef1).get();
+    }
     res.send({ status: 'ok' })
 })
 
